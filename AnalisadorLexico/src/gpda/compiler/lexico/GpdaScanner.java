@@ -4,6 +4,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import gpda.compiler.exceptions.GpdaLexicalException;
+
 public class GpdaScanner {
 	
 	private char[] content;
@@ -50,7 +52,7 @@ public class GpdaScanner {
 					token.setText(term);
 					return token;
 				} else {
-					throw new RuntimeException("Unrecognized SYMBOL");
+					throw new GpdaLexicalException("Unrecognized SYMBOL");
 				}
 				break;
 			case 1: 
@@ -76,7 +78,7 @@ public class GpdaScanner {
 				} else if (!isChar(currentChar)) {
 					estado = 4;
 				} else {
-					throw new RuntimeException("Unrecognized Number");
+					throw new GpdaLexicalException("Unrecognized Number");
 				}
 				break;
 			case 4:

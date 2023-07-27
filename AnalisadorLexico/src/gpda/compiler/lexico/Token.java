@@ -7,8 +7,14 @@ public class Token {
 	public static final int TK_PONCTUATION = 3;
 	public static final int TK_ATR = 4;
 	
-	private int type;
-	private String text;
+	public static final String TK_TEXT[] = {
+			"IDENTIFIER", "NUMBER", "OPERATOR", "PONCTUACTION", "ASSIGMENT"
+	};
+	
+	private int 	type;
+	private String 	text;
+	private int 	line;
+	private int 	column;
 	
 	public Token(int type, String text) {
 		super();
