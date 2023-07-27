@@ -32,7 +32,6 @@ public class GpdaScanner {
 		estado = 0;
 		while (true) {
 			currentChar = nextChar();
-			term += currentChar;
 			
 			switch(estado) {
 			case 0:
@@ -45,7 +44,11 @@ public class GpdaScanner {
 				} else if (isSpace(currentChar)) {
 					estado = 0;
 				} else if (isOperator(currentChar)) {
-					estado = 5;
+					term += currentChar;
+					token = new Token();
+					token.setType(Token.TK_OPERATOR);
+					token.setText(term);
+					return token;
 				} else {
 					throw new RuntimeException("Unrecognized SYMBOL");
 				}
@@ -59,7 +62,9 @@ public class GpdaScanner {
 				}
 				break;
 			case 2:
-				back();
+				if (!isEOF(currentChar)) {
+					back();
+				}
 				token = new Token();
 				token.setType(Token.TK_IDENT);
 				token.setText(term);
@@ -78,7 +83,9 @@ public class GpdaScanner {
 				token = new Token();
 				token.setType(Token.TK_NUMBER);
 				token.setText(term);
-				back();
+				if (!isEOF(currentChar)) {
+					back();						
+				}
 				return token;
 			}
 		}
@@ -93,7 +100,8 @@ public class GpdaScanner {
 	}
 	
 	private boolean isOperator(char c) {
-		return c == '>' || c == '<' || c == '=' || c == '!';
+		return c == '+' || c == '-' || c == '*' || c == '/' ||
+			   c == '>' || c == '<' || c == '=';
 	}
 	
 	private boolean isSpace(char c) {
@@ -101,11 +109,19 @@ public class GpdaScanner {
 	}
 	
 	private char nextChar() {
+		if (isEOF()) {
+			return '\0';
+		}
+		
 		return content[pos++];
 	}
 	
 	private boolean isEOF() {
 		return pos == content.length;
+	}
+	
+	private boolean isEOF(char c) {
+		return c == '\0';
 	}
 	
 	private void back() {
