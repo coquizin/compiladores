@@ -30,14 +30,14 @@ public class GpdaParser {
 	public void T() {
 		token = scanner.nextToken();
 		if (token.getType() != Token.TK_IDENT && token.getType() != Token.TK_NUMBER) {
-			throw new GpdaSyntaxException("ID or NUMBER Expected! found"+Token.TK_TEXT[token.getType()]+" ("+token.getText()+")");
+			throw new GpdaSyntaxException("ID or NUMBER Expected! found"+Token.TK_TEXT[token.getType()]+" ("+token.getText()+") at LINE " +token.getLine()+" and COLUMN "+token.getColumn());
 		}
 			
 	}
 	
 	public void OP() {
 		if (token.getType() != Token.TK_OPERATOR) {
-			throw new GpdaSyntaxException("Operator Expected, found "+Token.TK_TEXT[token.getType()]+" ("+token.getText()+")");
+			throw new GpdaSyntaxException("Operator Expected, found "+Token.TK_TEXT[token.getType()]+" ("+token.getText()+") at LINE " +token.getLine()+" and COLUMN "+token.getColumn());
 		}
 	}
 }

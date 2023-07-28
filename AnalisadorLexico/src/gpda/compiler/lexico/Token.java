@@ -16,6 +16,7 @@ public class Token {
 	private int 	line;
 	private int 	column;
 	
+	
 	public Token(int type, String text) {
 		super();
 		this.type = type;
@@ -44,6 +45,22 @@ public class Token {
 	
 	public String toString() {
 		return "Token [type=" + type + ", text=" + text + "]";
+	}
+	
+	public void setLine(int line) {
+		this.line = line;
+	}
+	
+	public int getLine() {
+		return line;
+	}
+	
+	public void setColumn(int column) {
+		this.column = column;
+	}
+	
+	public int getColumn() {
+		return column;
 	}
 	
 }

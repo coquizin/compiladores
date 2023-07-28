@@ -8,13 +8,17 @@ import gpda.compiler.exceptions.GpdaLexicalException;
 
 public class GpdaScanner {
 	
-	private char[] content;
-	private int estado;
-	private int pos;
-	Token token;
+	private char[] 	content;
+	private int 	estado;
+	private int 	pos;
+	private int 	line;
+	private int 	column;
+	Token 			token;
 	
 	public GpdaScanner(String filename) {
 		try {
+			line = 1;
+			column = 0;
 			String txtConteudo;
 			txtConteudo = new String(Files.readAllBytes(Paths.get(filename)), StandardCharsets.UTF_8);
 			content = txtConteudo.toCharArray();
@@ -34,6 +38,7 @@ public class GpdaScanner {
 		estado = 0;
 		while (true) {
 			currentChar = nextChar();
+			column++;
 			
 			switch(estado) {
 			case 0:
@@ -50,6 +55,8 @@ public class GpdaScanner {
 					token = new Token();
 					token.setType(Token.TK_OPERATOR);
 					token.setText(term);
+					token.setLine(line);
+					token.setColumn(column - term.length());
 					return token;
 				} else {
 					throw new GpdaLexicalException("Unrecognized SYMBOL");
@@ -70,6 +77,8 @@ public class GpdaScanner {
 				token = new Token();
 				token.setType(Token.TK_IDENT);
 				token.setText(term);
+				token.setLine(line);
+				token.setColumn(column - term.length());
 				return token;
 			case 3:
 				if (isDigit(currentChar)) {
@@ -85,6 +94,8 @@ public class GpdaScanner {
 				token = new Token();
 				token.setType(Token.TK_NUMBER);
 				token.setText(term);
+				token.setLine(line);
+				token.setColumn(column - term.length());
 				if (!isEOF(currentChar)) {
 					back();						
 				}
@@ -107,6 +118,10 @@ public class GpdaScanner {
 	}
 	
 	private boolean isSpace(char c) {
+		if (c == '\n' || c == '\r') {
+			line++;
+			column = 0;
+		}
 		return c == ' ' || c == '\t' || c == '\n' || c == '\r';
 	}
 	
