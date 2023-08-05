@@ -10,9 +10,11 @@ package parser;
 	import ast.CommandRead;  //import ast.CommandLeitura;
 	import ast.CommandWrite; //import ast.CommandEscrita
 	import ast.CommandAttrib; //import ast.CommandAtribuicao
-	import ast.CommandIf; //import ast.CommandDecisao 
+	import ast.CommandIf; //import ast.CommandDecisao
+	import ast.CommandWhile; 
 	import java.util.ArrayList;
 	import java.util.Stack;
+	import java.util.List;
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -42,15 +44,15 @@ public interface IsiLangListener extends ParseTreeListener {
 	 */
 	void exitDecl(IsiLangParser.DeclContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link IsiLangParser#declaravar}.
+	 * Enter a parse tree produced by {@link IsiLangParser#declaraVar}.
 	 * @param ctx the parse tree
 	 */
-	void enterDeclaravar(IsiLangParser.DeclaravarContext ctx);
+	void enterDeclaraVar(IsiLangParser.DeclaraVarContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link IsiLangParser#declaravar}.
+	 * Exit a parse tree produced by {@link IsiLangParser#declaraVar}.
 	 * @param ctx the parse tree
 	 */
-	void exitDeclaravar(IsiLangParser.DeclaravarContext ctx);
+	void exitDeclaraVar(IsiLangParser.DeclaraVarContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link IsiLangParser#tipo}.
 	 * @param ctx the parse tree
@@ -121,6 +123,16 @@ public interface IsiLangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCmdIf(IsiLangParser.CmdIfContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IsiLangParser#cmdWhile}.
+	 * @param ctx the parse tree
+	 */
+	void enterCmdWhile(IsiLangParser.CmdWhileContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IsiLangParser#cmdWhile}.
+	 * @param ctx the parse tree
+	 */
+	void exitCmdWhile(IsiLangParser.CmdWhileContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link IsiLangParser#expr}.
 	 * @param ctx the parse tree

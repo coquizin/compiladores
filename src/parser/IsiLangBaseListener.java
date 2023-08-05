@@ -10,9 +10,11 @@ package parser;
 	import ast.CommandRead;  //import ast.CommandLeitura;
 	import ast.CommandWrite; //import ast.CommandEscrita
 	import ast.CommandAttrib; //import ast.CommandAtribuicao
-	import ast.CommandIf; //import ast.CommandDecisao 
+	import ast.CommandIf; //import ast.CommandDecisao
+	import ast.CommandWhile; 
 	import java.util.ArrayList;
 	import java.util.Stack;
+	import java.util.List;
 
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -55,13 +57,13 @@ public class IsiLangBaseListener implements IsiLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDeclaravar(IsiLangParser.DeclaravarContext ctx) { }
+	@Override public void enterDeclaraVar(IsiLangParser.DeclaraVarContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDeclaravar(IsiLangParser.DeclaravarContext ctx) { }
+	@Override public void exitDeclaraVar(IsiLangParser.DeclaraVarContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -146,6 +148,18 @@ public class IsiLangBaseListener implements IsiLangListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCmdIf(IsiLangParser.CmdIfContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCmdWhile(IsiLangParser.CmdWhileContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCmdWhile(IsiLangParser.CmdWhileContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

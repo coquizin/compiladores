@@ -14,8 +14,17 @@ public class CommandRead extends AbstractCommand {
 	
 	@Override
 	public String generateJavaCode() {
-		// TODO Auto-generated method stub
-		return id + " = _key." + (var.getType() == IsiVariable.NUMBER? "nextDouble();" : "nextLine();");
+		String scannerMethod;
+		if(var.getType() == IsiVariable.NUMBER) {
+			scannerMethod = "nextDouble()";
+		}
+		else if(var.getType() == IsiVariable.BOOLEAN) {
+			scannerMethod = "nextBoolean()";
+		}
+		else {
+			scannerMethod = "nextLine()";
+		}
+		return id + " = _key." + scannerMethod + ";"; 
 	}
 	
 	@Override

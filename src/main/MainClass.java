@@ -31,10 +31,10 @@ public class MainClass {
 			parser.generateCode();
 		}
 		catch(IsiSemanticException ex) {
-			System.err.println("Semantic error -" + ex.getMessage());
+			System.err.println("Semantic error: " + ex.getMessage());
 		}
 		catch(Exception ex) {
-			System.err.println("ERROR " + ex.getMessage());
+			System.err.println("Generic error: " + ex.getMessage());
 		}
 	}
 }

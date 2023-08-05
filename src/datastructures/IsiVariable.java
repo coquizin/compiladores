@@ -3,6 +3,7 @@ package datastructures;
 public class IsiVariable extends IsiSymbol{
 	public static final int NUMBER = 0;
 	public static final int TEXT   = 1;
+	public static final int BOOLEAN = 2;
 	
 	private int type;
 	private String value;
@@ -35,6 +36,9 @@ public class IsiVariable extends IsiSymbol{
 		 String str;
 		 if (type == NUMBER) {
 			 str = "double ";
+		 }
+		 else if (type == BOOLEAN ){
+			 str = "boolean ";
 		 }
 		 else {
 			 str = "String ";
