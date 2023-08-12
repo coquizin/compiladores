@@ -211,10 +211,12 @@ cmdWhile	: 'enquanto' AP
 				       stack.peek().add(cmd);
 				     }
 			;
+			
 
-expr	: termo ( OP { _exprContent += _input.LT(-1).getText(); } expr)? |
-          OPMATH { _exprContent += _input.LT(-1).getText(); }
-          termo ( OP { _exprContent += _input.LT(-1).getText(); } expr)? 
+expr	: termo ( 
+		  OP    { _exprContent += _input.LT(-1).getText(); }
+          termo 
+          )*
 		;
 	
 termo	: ID { 
@@ -236,10 +238,6 @@ termo	: ID {
 		}
 		;
 
-// Operacoes matematicas
-OPMATH	: 'raiz' | 'log'
-      	;
-
 // Abrir parentese			
 AP	: '('
 	;
@@ -253,7 +251,7 @@ SC	: ';'
 	;
 
 // Operadores	
-OP	: '+' | '-' | '*' | '/' | '**'
+OP	: '+' | '-' | '*' | '/' 
 	;
 	
 // Atribuicao
