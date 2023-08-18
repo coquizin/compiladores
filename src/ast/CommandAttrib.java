@@ -11,12 +11,12 @@ public class CommandAttrib extends AbstractCommand{
 		
 	@Override
 	public String generateJavaCode() {
-		return id + " =" + expr + ";";
+		return id + " = " + expr + ";";
 	}
 	
 	@Override
 	public String toString() {
-		return "CommandAttrib [id=" + id + ", expr=" + expr + "]";
+		return "CommandAttrib [id = " + id + ", expr=" + expr + "]";
 	}
 	
 }

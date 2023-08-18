@@ -1,12 +1,18 @@
 programa
 	numero a, b, c;
 	texto t1;
-	booleano b1;
 
-	a = 1 + 2 * 3 / b;
-	
-	enquanto ( a > b ){
-		escreva(a);
+
+	a = 1;
+	b = a/2;
+		
+	se (a < b){
+		c = 5;
+		se(c > a){
+			leia(t1);
+		}
+	} senao {
+		leia(c);
 	}
-
+	
 fimprog;

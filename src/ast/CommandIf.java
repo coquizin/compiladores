@@ -8,10 +8,10 @@ public class CommandIf extends AbstractCommand {
 	private ArrayList<AbstractCommand> listaTrue;
 	private ArrayList<AbstractCommand> listaFalse;
 	
-	public CommandIf(String condition, ArrayList<AbstractCommand> lt, ArrayList<AbstractCommand> lf) {
+	public CommandIf(String condition, ArrayList<AbstractCommand> listTrue, ArrayList<AbstractCommand> listFalse) {
 		this.condition = condition;
-		this.listaTrue = lt;
-		this.listaFalse = lf;
+		this.listaTrue = listTrue;
+		this.listaFalse = listFalse;
 	}
 	
 	@Override
@@ -36,6 +36,6 @@ public class CommandIf extends AbstractCommand {
 	
 	@Override
 	public String toString() {
-		return "CommandIf [condition=" + condition + ", listaTrue=" + listaTrue + ", listaFalse=" + listaFalse + "]";
+		return "CommandIf [condition = " + condition + ", listaTrue=" + listaTrue + ", listaFalse=" + listaFalse + "]";
 	}
 }

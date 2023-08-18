@@ -20,4 +20,9 @@ public class CommandWhile extends AbstractCommand{
         
         return stringBuilder.toString();
 	}
+	
+	@Override
+	public String toString() {
+		return "CommandWhile [condition = " + condition + ", comandos=" + whileList + "]";
+	}
 }

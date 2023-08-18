@@ -11,7 +11,8 @@ package parser;
 	import ast.CommandWrite; //import ast.CommandEscrita
 	import ast.CommandAttrib; //import ast.CommandAtribuicao
 	import ast.CommandIf; //import ast.CommandDecisao
-	import ast.CommandWhile; 
+	import ast.CommandWhile;
+	import ast.CommandDoWhile; 
 	import java.util.ArrayList;
 	import java.util.Stack;
 	import java.util.List;
@@ -133,6 +134,16 @@ public interface IsiLangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCmdWhile(IsiLangParser.CmdWhileContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IsiLangParser#cmdDoWhile}.
+	 * @param ctx the parse tree
+	 */
+	void enterCmdDoWhile(IsiLangParser.CmdDoWhileContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IsiLangParser#cmdDoWhile}.
+	 * @param ctx the parse tree
+	 */
+	void exitCmdDoWhile(IsiLangParser.CmdDoWhileContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link IsiLangParser#expr}.
 	 * @param ctx the parse tree
