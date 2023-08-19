@@ -7,10 +7,10 @@ grammar IsiLang;
 	import exceptions.IsiSemanticException;
 	import ast.IsiProgram;
 	import ast.AbstractCommand;
-	import ast.CommandRead;  //import ast.CommandLeitura;
-	import ast.CommandWrite; //import ast.CommandEscrita
-	import ast.CommandAttrib; //import ast.CommandAtribuicao
-	import ast.CommandIf; //import ast.CommandDecisao
+	import ast.CommandRead;  
+	import ast.CommandWrite; 
+	import ast.CommandAttrib; 
+	import ast.CommandIf;
 	import ast.CommandWhile;
 	import ast.CommandDoWhile; 
 	import java.util.ArrayList;
@@ -22,27 +22,27 @@ grammar IsiLang;
 	private int _tipo;
 	private String _varName;
 	private String _varValue;
-	private List<String> _unusedVariables = new ArrayList<String>(); //Variaveis nao utilizadas
+	private List<String> _unusedVariables = new ArrayList<String>(); 
 	private IsiSymbol symbol;
 	private IsiSymbolTable symbolTable = new IsiSymbolTable();
 	
 	private IsiProgram program = new IsiProgram();
 	private ArrayList<AbstractCommand> curThread;
-	private Stack<ArrayList<AbstractCommand>> stack = new Stack<ArrayList<AbstractCommand>>(); //Pilha para todos os comandos
+	private Stack<ArrayList<AbstractCommand>> stack = new Stack<ArrayList<AbstractCommand>>(); 
 	
 	private String _readID;
 	private String _writeID;
 	private String _exprID;
 	private String _exprContent;
-	private String _exprDecision;                                            //private String _exprCondition -- Expressao IF
-	private Stack<String> _exprDecisionStack = new Stack<String>();          //Pilha para IF
-	private String _exprWhile;                                               //Expressao While
-	private Stack<String> _exprWhileStack = new Stack<String>();             //Pilha para While
+	private String _exprDecision;                                            
+	private Stack<String> _exprDecisionStack = new Stack<String>();          
+	private String _exprWhile;                                              
+	private Stack<String> _exprWhileStack = new Stack<String>();             
 	private String _exprDoWhile;
 	private Stack<String> _exprDoWhileStack = new Stack<String>();
-	private ArrayList<AbstractCommand> ifList;  //listaTrue 
-	private ArrayList<AbstractCommand> elseList; //listaFalse
-	private ArrayList<AbstractCommand> whileList; //listaWhile
+	private ArrayList<AbstractCommand> ifList;  
+	private ArrayList<AbstractCommand> elseList; 
+	private ArrayList<AbstractCommand> whileList; 
 	private ArrayList<AbstractCommand> doWhileList;
 	
 	public IsiSymbol getSymbolID(String id){
@@ -122,10 +122,10 @@ bloco	: { curThread = new ArrayList<AbstractCommand>();
           (cmd)+
 		;
 		
-cmd		: cmdRead    //cmdleitura 
-		| cmdWrite   //cmdescrita 
+cmd		: cmdRead    
+		| cmdWrite  
 		| cmdAttrib  
-		| cmdIf      //cmdselecao
+		| cmdIf     
 		| cmdWhile
 		| cmdDoWhile
 		;
@@ -137,11 +137,7 @@ cmdRead	: 'leia' AP
 		  FP
 		  SC {
 			   IsiVariable var = (IsiVariable)symbolTable.get(_readID);
-			   CommandRead cmd = new CommandRead(_readID, var);
-			   
-			   IsiSymbol symbolRead = getSymbolID(_readID);
-			   IsiVariable variableRead = (IsiVariable) symbolRead;
-			   variableRead.setValue("x");			   
+			   CommandRead cmd = new CommandRead(_readID, var);		   
 			   stack.peek().add(cmd);
 			 }
 		 ;
@@ -153,9 +149,6 @@ cmdWrite	: 'escreva' AP
 						FP 
 						SC {
 							CommandWrite cmd = new CommandWrite(_writeID);
-							IsiSymbol symbolWrite = getSymbolID(_writeID);
-							IsiVariable variableWrite = (IsiVariable) symbolWrite;
-							String x = variableWrite.getValue();
 							stack.peek().add(cmd);
 						   }
 			;
@@ -170,29 +163,15 @@ cmdAttrib	: ID { _varName = _input.LT(-1).getText();
 			  SC { 
 			  	   verificaTipo(_varName, _tipo);
 			       CommandAttrib cmd = new CommandAttrib(_exprID, _exprContent);
-			       IsiSymbol symbolAtt = getSymbolID(_exprID);
-			       IsiVariable variableAtt = (IsiVariable) symbolAtt;
-			       variableAtt.setValue(_exprContent);
 			  	   stack.peek().add(cmd);
 			     } 
 			;
 
 cmdIf	: 'se' AP (
                   ( 
-				   (ID | NUMBER | TEXT) { _exprDecision = _input.LT(-1).getText(); 
-				   						  IsiSymbol symbol = getSymbolID(_exprDecision);
-				   						  IsiVariable variable = (IsiVariable) symbol;
-				   						  String str = variable.getValue();
-				   					    }
+				   (ID | NUMBER | TEXT) { _exprDecision = _input.LT(-1).getText(); }
 				   OPREL { _exprDecision += _input.LT(-1).getText(); }
-				   (ID | NUMBER | TEXT) { String var = _input.LT(-1).getText();
-				   						  _exprDecision += var;
-				   						  if (symbolTable.exists(var)){
-				   							IsiSymbol symbolIf = getSymbolID(var);
-				   							IsiVariable variableIf = (IsiVariable) symbolIf;
-				   							String x = variableIf.getValue();
-				   						  } 
-				  						}
+				   (ID | NUMBER | TEXT) { _exprDecision += _input.LT(-1).getText(); }
 				  ) 
 				  ) 
 				   FP 
@@ -225,20 +204,9 @@ cmdIf	: 'se' AP (
 cmdWhile	: 'enquanto' AP
 				(
 				(
-				 (ID | NUMBER | TEXT ) { _exprWhile = _input.LT(-1).getText(); 
-				 						 IsiSymbol symbol = getSymbolID(_exprWhile);
-				 						 IsiVariable variable = (IsiVariable) symbol;
-				 						 String str = variable.getValue();
-				 					   }
+				 (ID | NUMBER | TEXT ) { _exprWhile = _input.LT(-1).getText(); }
 				 OPREL { _exprWhile += _input.LT(-1).getText(); }
-				 (ID | NUMBER | TEXT) { String var = _input.LT(-1).getText(); 
-				 						_exprWhile += var;
-				 						if(symbolTable.exists(var)){
-				 						  IsiSymbol symbolWhile = getSymbolID(var);
-				 						  IsiVariable variableWhile = (IsiVariable) symbolWhile;
-				 						  String x = variableWhile.getValue();
-				 						} 
-				 				       }
+				 (ID | NUMBER | TEXT) { _exprWhile += _input.LT(-1).getText(); }
 				)
 				)
 				 FP
@@ -259,22 +227,9 @@ cmdDoWhile	: 'faca' ACH { curThread = new ArrayList<AbstractCommand>();
 				     FCH 'enquanto' AP 
 				     (
 				     (
-				       (ID | NUMBER | TEXT) { _exprDoWhile = _input.LT(-1).getText(); 
-				       						  if(symbolTable.exists(_exprDoWhile)){
-				       							IsiSymbol symbolDoWhile = getSymbolID(_exprDoWhile);
-				       							IsiVariable variableDoWhile = (IsiVariable) symbolDoWhile;
-				       							String str = variableDoWhile.getValue(); 
-				       						  }
-				       						}
+				       (ID | NUMBER | TEXT) { _exprDoWhile = _input.LT(-1).getText(); }
 				       OPREL { _exprDoWhile += _input.LT(-1).getText(); } 
-				       (ID | NUMBER | TEXT) { String var = _input.LT(-1).getText();
-				       						  _exprDoWhile += var;
-				       						  if(symbolTable.exists(var)){
-				       							IsiSymbol symbolDoWhile = getSymbolID(var);
-				       							IsiVariable variableDoWhile = (IsiVariable) symbolDoWhile;
-				       							String x = variableDoWhile.getValue();
-				       						  } 
-				       						 }
+				       (ID | NUMBER | TEXT) { _exprDoWhile += _input.LT(-1).getText(); }
 				     ) 
 				     )          
 				     FP
@@ -291,11 +246,7 @@ expr	: termo ( OP { _exprContent += _input.LT(-1).getText(); } termo)*
 termo	: ID { 
 			   verificaID(_input.LT(-1).getText());
 			   _tipo = ((IsiVariable) symbolTable.get(_input.LT(-1).getText())).getType();
-			   String var = _input.LT(-1).getText();
-			   _exprContent += var;
-			   IsiSymbol symbol = getSymbolID(var);
-			   IsiVariable variable = (IsiVariable) symbol;
-			   String x = variable.getValue(); 
+			   _exprContent += _input.LT(-1).getText();
 			 } 
 		| NUMBER {
 		       _tipo = IsiVariable.NUMBER;
@@ -306,8 +257,6 @@ termo	: ID {
 			   _exprContent += _input.LT(-1).getText();
 		}
 		;
-
-comment	:	COMMENTLINE | COMMENTBLOCK;
 
 // Abrir parentese			
 AP	: '('
@@ -362,9 +311,3 @@ TEXT	: ASPAS ( [a-z] | [A-Z] | [0-9] | ' ')+ ASPAS
 
 // Espaço
 WS	: (' ' | '\t' | '\n' | '\r') -> skip;
-
-// Comentários de linha
-COMMENTLINE	:	('//' ~[\r\n]*) -> skip;
-
-// Comentários de bloco
-COMMENTBLOCK	:	('/*' .*? '*/') -> skip;
