@@ -45,9 +45,6 @@ grammar IsiLang;
 	private ArrayList<AbstractCommand> whileList; 
 	private ArrayList<AbstractCommand> doWhileList;
 	
-	public IsiSymbol getSymbolID(String id){
-		return symbolTable.get(id);
-	}
 	
 	public void verificaID(String id){
 		if(!symbolTable.exists(id)){
