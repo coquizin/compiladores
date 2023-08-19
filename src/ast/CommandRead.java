@@ -29,7 +29,7 @@ public class CommandRead extends AbstractCommand {
 	
 	@Override
 	public String toString() {
-		return "CommandRead [id=" + id + "]";
+		return "CommandRead [id = " + id + "]";
 	}
 	
 }
