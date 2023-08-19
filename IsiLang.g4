@@ -72,7 +72,7 @@ grammar IsiLang;
 	}
 }
 
-prog	: 'programa' (comment)+ decl bloco 'fimprog;'
+prog	: 'programa' decl bloco 'fimprog;'
 		  { program.setVarTable(symbolTable); 		  	
 		    program.setCommands(stack.pop());
 		    if(_unusedVariables.size() > 0){
