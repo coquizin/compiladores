@@ -72,7 +72,7 @@ grammar IsiLang;
 	}
 }
 
-prog	: 'programa' decl bloco 'fimprog;'
+prog	: 'programa' (comment)+ decl bloco 'fimprog;'
 		  { program.setVarTable(symbolTable); 		  	
 		    program.setCommands(stack.pop());
 		    if(_unusedVariables.size() > 0){
@@ -307,6 +307,8 @@ termo	: ID {
 		}
 		;
 
+comment	:	COMMENTLINE | COMMENTBLOCK;
+
 // Abrir parentese			
 AP	: '('
 	;
@@ -360,3 +362,9 @@ TEXT	: ASPAS ( [a-z] | [A-Z] | [0-9] | ' ')+ ASPAS
 
 // Espaço
 WS	: (' ' | '\t' | '\n' | '\r') -> skip;
+
+// Comentários de linha
+COMMENTLINE	:	('//' ~[\r\n]*) -> skip;
+
+// Comentários de bloco
+COMMENTBLOCK	:	('/*' .*? '*/') -> skip;
