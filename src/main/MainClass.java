@@ -24,7 +24,7 @@ public class MainClass {
 			
 			parser.prog();
 			
-			System.out.println("Compilation Successful");
+			System.out.println("Compilation Successful!");
 			
 			parser.exibeComandos();
 			
