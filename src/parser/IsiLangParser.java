@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
 
-@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue"})
+@SuppressWarnings({"all", "warnings", "unchecked", "unused", "unassinged", "cast", "CheckReturnValue"})
 public class IsiLangParser extends Parser {
 	static { RuntimeMetaData.checkVersion("4.13.0", RuntimeMetaData.VERSION); }
 
@@ -116,6 +116,7 @@ public class IsiLangParser extends Parser {
 		private String _varName;
 		private String _varValue;
 		private List<String> _unusedVariables = new ArrayList<String>(); //Variaveis nao utilizadas
+		private List<String> _unassignedVariables = new ArrayList<String>(); //Variaveis nao atribuidas
 		private IsiSymbol symbol;
 		private IsiSymbolTable symbolTable = new IsiSymbolTable();
 		
@@ -207,7 +208,10 @@ public class IsiLangParser extends Parser {
 			match(T__1);
 			 program.setVarTable(symbolTable); 		  	
 					    program.setCommands(stack.pop());
-					    if(_unusedVariables.size() > 0){
+					    if(_unassignedVariables.size() > 0){
+					    	System.err.println("Unassigned variables: " + _unassignedVariables);
+					    }
+					    else if(_unusedVariables.size()>0) {
 					    	System.err.println("Unused variables: " + _unusedVariables);
 					    }
 					  
@@ -325,6 +329,7 @@ public class IsiLangParser extends Parser {
 								 symbol = new IsiVariable(_varName, _tipo, _varValue);
 								 if(!symbolTable.exists(_varName)){
 								 	symbolTable.add(symbol);
+								 	_unassignedVariables.add(_varName);
 								 	_unusedVariables.add(_varName);
 								 }
 								 else{
@@ -347,6 +352,7 @@ public class IsiLangParser extends Parser {
 									 symbol = new IsiVariable(_varName, _tipo, _varValue);
 									 if(!symbolTable.exists(_varName)){
 									 	symbolTable.add(symbol);
+									 	_unassignedVariables.add(_varName);
 									 	_unusedVariables.add(_varName);
 									 }
 									 else{
@@ -617,6 +623,9 @@ public class IsiLangParser extends Parser {
 			match(AP);
 			setState(74);
 			match(ID);
+			_varName = _input.LT(-1).getText();
+			_unusedVariables.remove(_varName);
+			
 			 verificaID(_input.LT(-1).getText());
 						   _readID = _input.LT(-1).getText();
 						 
@@ -678,6 +687,8 @@ public class IsiLangParser extends Parser {
 			match(AP);
 			setState(82);
 			match(ID);
+			_varName = _input.LT(-1).getText();
+			_unusedVariables.remove(_varName);
 			 verificaID(_input.LT(-1).getText()); 
 									   	 _writeID = _input.LT(-1).getText();
 									   
@@ -737,7 +748,7 @@ public class IsiLangParser extends Parser {
 			match(ID);
 			 _varName = _input.LT(-1).getText();
 							   verificaID(_varName); 
-							   _unusedVariables.remove(_varName);
+							   _unassignedVariables.remove(_varName);
 							   _exprID = _varName;
 							 
 			setState(90);
@@ -840,7 +851,7 @@ public class IsiLangParser extends Parser {
 							   						  IsiSymbol symbol = getSymbolID(_exprDecision);
 							   						  IsiVariable variable = (IsiVariable) symbol;
 							   						  String str = variable.getValue();
-							   					    
+			_unusedVariables.remove(_exprDecision)	;			   					    
 			setState(100);
 			match(OPREL);
 			 _exprDecision += _input.LT(-1).getText(); 
@@ -855,6 +866,7 @@ public class IsiLangParser extends Parser {
 				consume();
 			}
 			 String var = _input.LT(-1).getText();
+				_unusedVariables.remove(var);
 							   						  _exprDecision += var;
 							   						  if (symbolTable.exists(var)){
 							   							IsiSymbol symbolIf = getSymbolID(var);
@@ -1013,7 +1025,7 @@ public class IsiLangParser extends Parser {
 							 						 IsiSymbol symbol = getSymbolID(_exprWhile);
 							 						 IsiVariable variable = (IsiVariable) symbol;
 							 						 String str = variable.getValue();
-							 					   
+			_unusedVariables.remove(_exprWhile)		;		 					   
 			setState(134);
 			match(OPREL);
 			 _exprWhile += _input.LT(-1).getText(); 
@@ -1028,6 +1040,8 @@ public class IsiLangParser extends Parser {
 				consume();
 			}
 			 String var = _input.LT(-1).getText(); 
+			 System.out.println(var);
+			 _unusedVariables.remove(var);
 							 						_exprWhile += var;
 							 						if(symbolTable.exists(var)){
 							 						  IsiSymbol symbolWhile = getSymbolID(var);
@@ -1169,7 +1183,7 @@ public class IsiLangParser extends Parser {
 							       							IsiVariable variableDoWhile = (IsiVariable) symbolDoWhile;
 							       							String str = variableDoWhile.getValue(); 
 							       						  }
-							       						
+							       						_unusedVariables.remove(_exprWhile)		;
 			setState(163);
 			match(OPREL);
 			 _exprDoWhile += _input.LT(-1).getText(); 
@@ -1184,6 +1198,8 @@ public class IsiLangParser extends Parser {
 				consume();
 			}
 			 String var = _input.LT(-1).getText();
+			 System.out.println(var);
+			 _unusedVariables.remove(var);
 							       						  _exprDoWhile += var;
 							       						  if(symbolTable.exists(var)){
 							       							IsiSymbol symbolDoWhile = getSymbolID(var);
@@ -1253,6 +1269,7 @@ public class IsiLangParser extends Parser {
 			setState(178);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
+			// System.out.println(_input.LA(1));
 			while (_la==OP) {
 				{
 				{
@@ -1311,7 +1328,8 @@ public class IsiLangParser extends Parser {
 				{
 				setState(181);
 				match(ID);
-				 
+								_varName = _input.LT(-1).getText();
+								_unusedVariables.remove(_varName);	
 							   verificaID(_input.LT(-1).getText());
 							   _tipo = ((IsiVariable) symbolTable.get(_input.LT(-1).getText())).getType();
 							   String var = _input.LT(-1).getText();

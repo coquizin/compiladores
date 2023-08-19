@@ -1,18 +1,10 @@
 programa
-	numero a, b, c;
-	texto t1;
-
-
-	a = 1;
-	b = a/2;
-		
-	se (a < b){
-		c = 5;
-		se(c > a){
-			leia(t1);
+	numero a, b, c, d;
+	d = 3;
+	a = 2;
+	b = 2; 
+	se(a < d){
+		escreva(c);
 		}
-	} senao {
-		leia(c);
-	}
 	
 fimprog;
