@@ -1,0 +1,16 @@
+programa
+	numero a, b, c, d;
+	leia(d);
+	b = 2;
+	c = 3;
+	a = 3;
+	 
+	se(c < d) {
+		escreva(c);
+	}
+	
+	enquanto (b > d) {
+		b = b + 1;
+	}
+	
+fimprog;

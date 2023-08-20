@@ -624,8 +624,7 @@ public class IsiLangParser extends Parser {
 			setState(74);
 			match(ID);
 			_varName = _input.LT(-1).getText();
-			_unusedVariables.remove(_varName);
-			
+			_unassignedVariables.remove(_varName);
 			 verificaID(_input.LT(-1).getText());
 						   _readID = _input.LT(-1).getText();
 						 
@@ -1040,7 +1039,7 @@ public class IsiLangParser extends Parser {
 				consume();
 			}
 			 String var = _input.LT(-1).getText(); 
-			 System.out.println(var);
+			 
 			 _unusedVariables.remove(var);
 							 						_exprWhile += var;
 							 						if(symbolTable.exists(var)){
@@ -1198,7 +1197,7 @@ public class IsiLangParser extends Parser {
 				consume();
 			}
 			 String var = _input.LT(-1).getText();
-			 System.out.println(var);
+			 
 			 _unusedVariables.remove(var);
 							       						  _exprDoWhile += var;
 							       						  if(symbolTable.exists(var)){
