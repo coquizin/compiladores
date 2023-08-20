@@ -308,3 +308,7 @@ TEXT	: ASPAS ( [a-z] | [A-Z] | [0-9] | ' ')+ ASPAS
 
 // Espaço
 WS	: (' ' | '\t' | '\n' | '\r') -> skip;
+
+// Comentários
+COMMENTLINE	:	('//' ~[\r\n]*) -> skip;
+COMMENTBLOCK	:	('/*' .*? '*/') -> skip;
